@@ -4,24 +4,26 @@ const initialGameBoard = [
   [null, null, null],
 ];
 
-{
-  /*
-   * This component is responsible for rendering the game board.
-   * It uses the initialGameBoard array to render the board.
-   * It maps over the initialGameBoard array to render each row.
-   * For each row, it maps over the columns to render the buttons.
-   * The buttons will display the playerSymbol from the initialGameBoard array.
-   */
-}
-const GameBoard = () => {
+const GameBoard = ({ onSelectSquare, turns }) => {
+  let gameBoard = initialGameBoard;
+
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+
+    gameBoard[row][col] = player;
+  }
+
   return (
     <ol id="game-board">
-      {initialGameBoard.map((row, rowIndex) => (
+      {gameBoard.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button>{playerSymbol}</button>
+                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>
+                  {playerSymbol}
+                </button>
               </li>
             ))}
           </ol>
